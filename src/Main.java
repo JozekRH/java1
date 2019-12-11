@@ -1,11 +1,10 @@
-import ru.progwards.java1.lessons.basics.AccuracyDoubleFloat;
-import ru.progwards.java1.lessons.basics.Astronomy;
-import ru.progwards.java1.lessons.basics.ReverseDigits;
+import ru.progwards.java1.lessons.compare_if_cycles.TriangleSimpleInfo;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println(AccuracyDoubleFloat.volumeBallDouble(1));
-        System.out.println(AccuracyDoubleFloat.volumeBallFloat(1));
-        System.out.println(AccuracyDoubleFloat.calculateAccuracy(AccuracyDoubleFloat.EARTH_RADIUS));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(TriangleSimpleInfo.maxSide(1,2,3));
+//        System.out.println(TriangleSimpleInfo.minSide(1,2,3));
+//        System.out.println(TriangleSimpleInfo.isEquilateralTriangle(1,2,3));
+//        System.out.println(TriangleSimpleInfo.isEquilateralTriangle(1,1,1));
+//    }
 }
