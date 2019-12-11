@@ -23,6 +23,8 @@ public class CyclesGoldenFibo {
     }
 
     public static boolean containsDigit(int number, int digit) {
+        if(number == 0 && digit == 0)
+            return true;
         while(number > 0) {
             int temp = number % 10;
             if(temp == digit)
