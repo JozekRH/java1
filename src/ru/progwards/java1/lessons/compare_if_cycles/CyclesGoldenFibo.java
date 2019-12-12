@@ -9,14 +9,9 @@ public class CyclesGoldenFibo {
         System.out.println();
         for(int i = 1; i < 101; i++) {
             for(int j = 1; j < 101; j++) {
-                for(int k = 1; k < 101; k++) {
-                    if(TriangleInfo.isTriangle(i, j, k) &&
-                            !TriangleSimpleInfo.isEquilateralTriangle(i, j, k) &&
-                            isGoldenTriangle(i, j, k)
-                    ) {
-                        System.out.print(getBase(i, j, k) + " " + getEdge(i, j, k) + " " + getEdge(i, j, k));
-                        System.out.println();
-                    }
+                if(isGoldenTriangle(i, j, j)) {
+                    System.out.print(getBase(i, j, j) + " " + getEdge(i, j, j) + " " + getEdge(i, j, j));
+                    System.out.println();
                 }
             }
         }
