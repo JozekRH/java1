@@ -1,8 +1,5 @@
 package ru.progwards.java1.lessons.interfaces;
 
-import ru.progwards.java1.lessons.classes.AnimalKind;
-import ru.progwards.java1.lessons.classes.FoodKind;
-
 public class Duck extends Animal {
     public Duck(double weight) {
         super(weight);
