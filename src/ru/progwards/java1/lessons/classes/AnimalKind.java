@@ -1,6 +1,6 @@
 package ru.progwards.java1.lessons.classes;
 
-enum AnimalKind {
+public enum AnimalKind {
     ANIMAL,
     COW,
     HAMSTER,

@@ -29,7 +29,7 @@ public class CyclesGoldenFibo {
         return false;
     }
 
-    public static int fiboNumber(int n) {
+    public static int fiboNumber(int n) { // возвращает n-ое число Фибоначчи
         if(n == 1 || n == 2)
             return 1;
         int fib1 = 1;

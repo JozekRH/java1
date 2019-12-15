@@ -9,9 +9,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        for(int i = -128; i < 128; i++) {
-            System.out.println(new Binary((byte)i).toString());
-        }
+        System.out.println(Double.compare(5.5, 1.5));
 
     }
 }

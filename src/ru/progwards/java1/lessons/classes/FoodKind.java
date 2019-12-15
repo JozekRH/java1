@@ -1,6 +1,6 @@
 package ru.progwards.java1.lessons.classes;
 
-enum FoodKind {
+public enum FoodKind {
     UNKNOWN,
     HAY,
     CORN
