@@ -27,11 +27,11 @@ public class CalculateFibonacci {
         public int fibo; // результат расчета
     }
 
-    public CacheInfo getLastFibo() {
+    public static CacheInfo getLastFibo() {
         return lastFibo;
     }
 
-    public void clearLastFibo() {
+    public static void clearLastFibo() {
         lastFibo = null;
     }
 }
