@@ -19,8 +19,9 @@ public class ArrayInteger {
         for(int i = 0; i < digits.length; i++) {
             BigInteger remainder = value.remainder(BigInteger.TEN);
             digits[i] = remainder.byteValue();
+            length++;
             value = value.divide(BigInteger.TEN);
-            if(value.compareTo(BigInteger.ZERO) > 0)
+            if(value.compareTo(BigInteger.ZERO) <= 0)
                 break;
         }
     }

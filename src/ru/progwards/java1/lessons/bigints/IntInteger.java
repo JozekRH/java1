@@ -8,6 +8,11 @@ public class IntInteger extends AbsInteger {
     }
 
     @Override
+    public IntInteger createNewInteger(int num) {
+        return new IntInteger(num);
+    }
+
+    @Override
     public String toString() {
         return Integer.toString(number);
     }
@@ -15,10 +20,5 @@ public class IntInteger extends AbsInteger {
     @Override
     public Integer getNumber() {
         return number;
-    }
-
-    @Override
-    public void setNumber(int number) {
-        this.number = number;
     }
 }

@@ -8,6 +8,11 @@ public class ByteInteger extends AbsInteger {
     }
 
     @Override
+    public ByteInteger createNewInteger(int num) {
+        return new ByteInteger((byte)num);
+    }
+
+    @Override
     public String toString() {
         return Byte.toString(number);
     }
@@ -15,10 +20,5 @@ public class ByteInteger extends AbsInteger {
     @Override
     public Byte getNumber() {
         return number;
-    }
-
-    @Override
-    public void setNumber(int number) {
-        this.number = (byte)number;
     }
 }

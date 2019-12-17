@@ -8,6 +8,11 @@ public class ShortInteger extends AbsInteger {
     }
 
     @Override
+    public ShortInteger createNewInteger(int num) {
+        return new ShortInteger((short) num);
+    }
+
+    @Override
     public String toString() {
         return Short.toString(number);
     }
@@ -15,10 +20,5 @@ public class ShortInteger extends AbsInteger {
     @Override
     public Short getNumber() {
         return number;
-    }
-
-    @Override
-    public void setNumber(int number) {
-        this.number = (short)number;
     }
 }
