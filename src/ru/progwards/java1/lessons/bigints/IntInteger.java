@@ -1,15 +1,10 @@
 package ru.progwards.java1.lessons.bigints;
 
 public class IntInteger extends AbsInteger {
-    public int number;
+    private int number;
 
     public IntInteger(int number) {
         this.number = number;
-    }
-
-    @Override
-    public IntInteger createNewInteger(int num) {
-        return new IntInteger(num);
     }
 
     @Override
@@ -18,7 +13,7 @@ public class IntInteger extends AbsInteger {
     }
 
     @Override
-    public Integer getNumber() {
+    Integer getNumber() {
         return number;
     }
 }

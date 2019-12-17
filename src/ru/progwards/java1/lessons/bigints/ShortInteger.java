@@ -1,15 +1,10 @@
 package ru.progwards.java1.lessons.bigints;
 
 public class ShortInteger extends AbsInteger {
-    public short number;
+    private short number;
 
     public ShortInteger(short number) {
         this.number = number;
-    }
-
-    @Override
-    public ShortInteger createNewInteger(int num) {
-        return new ShortInteger((short) num);
     }
 
     @Override
@@ -18,7 +13,7 @@ public class ShortInteger extends AbsInteger {
     }
 
     @Override
-    public Short getNumber() {
+    Short getNumber() {
         return number;
     }
 }
