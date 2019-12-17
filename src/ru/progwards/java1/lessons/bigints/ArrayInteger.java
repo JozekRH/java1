@@ -16,13 +16,18 @@ public class ArrayInteger {
     public void fromInt(BigInteger value) {
         length = 0;
         Arrays.fill(digits, (byte)0);
-        for(int i = 0; i < digits.length; i++) {
+        int valueLength = value.toString().length();
+        int startWritePoint = 0;
+        if(valueLength > digits.length) {
+            startWritePoint = valueLength - digits.length;
+        }
+        for(int i = 0; i < valueLength; i++) {
             BigInteger remainder = value.remainder(BigInteger.TEN);
-            digits[i] = remainder.byteValue();
-            length++;
+            if(i >= startWritePoint) {
+                digits[length] = remainder.byteValue();
+                length++;
+            }
             value = value.divide(BigInteger.TEN);
-            if(value.compareTo(BigInteger.ZERO) <= 0)
-                break;
         }
     }
 

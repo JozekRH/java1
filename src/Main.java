@@ -12,10 +12,9 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        AbsInteger num1 = new ByteInteger((byte)-25);
-        AbsInteger num2 = new ShortInteger((short)1424);
-        AbsInteger res = AbsInteger.add(num1, num2);
-        System.out.println(res);
-        System.out.println(res.getClass().getName());
+        BigInteger bi1 = new BigInteger("17179869184");
+        ArrayInteger ai1 = new ArrayInteger(4);
+        ai1.fromInt(bi1);
+        System.out.println(ai1.toInt());
     }
 }
