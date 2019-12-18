@@ -16,4 +16,15 @@ public class ByteInteger extends AbsInteger {
     Byte getNumber() {
         return number;
     }
+
+    @Override
+    public AbsInteger addNonStatic(AbsInteger num) {
+        int sum = this.getNumber().intValue() + num.getNumber().intValue();
+
+        if(sum >= Byte.MIN_VALUE && sum <= Byte.MAX_VALUE)
+            return new ByteInteger((byte)sum);
+        if(sum >= Short.MIN_VALUE && sum <= Short.MAX_VALUE)
+            return new ShortInteger((short) sum);
+        return new IntInteger(sum);
+    }
 }
