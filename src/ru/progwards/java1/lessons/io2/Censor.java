@@ -43,7 +43,9 @@ public class Censor {
                     if (index != -1) {
                         raf.seek(startWordPos + (long)index);
                         for (int i = 0; i < obsceneWord.length(); i++) {
-                            raf.write((byte)'*');
+                            //raf.write('*');
+                            //raf.seek(raf.getFilePointer()-1);
+                            raf.writeChar(42);
                         }
                     }
                 }
