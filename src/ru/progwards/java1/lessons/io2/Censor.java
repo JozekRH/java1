@@ -21,8 +21,9 @@ public class Censor {
         }
     }
 
-    public static void censorFile(String inoutFileName, String[] obscene) throws CensorException {
-        try(RandomAccessFile raf = new RandomAccessFile(inoutFileName, "rw")) {
+    public static void censorFile(String inFileName, String outFileName, String[] obscene) throws CensorException {
+        try(RandomAccessFile raf = new RandomAccessFile(inFileName, "rw");
+            RandomAccessFile outRaf = new RandomAccessFile(outFileName, "rw")) {
             StringBuilder sb = new StringBuilder();
             long startWordPos = 0;
             long lastStopPos = 0;
@@ -41,26 +42,28 @@ public class Censor {
                     int index = currentWord.indexOf(obsceneWord);
                     if (index != -1) {
                         raf.seek(startWordPos + (long)index);
+                        outRaf.seek(startWordPos + (long)index);
                         for (int i = 0; i < obsceneWord.length(); i++) {
-                            raf.write('*');
+                            outRaf.write('*');
                         }
                     }
                 }
                 raf.seek(lastStopPos);
+                outRaf.seek(lastStopPos);
             }
 
         } catch (Exception e) {
-            throw new CensorException(inoutFileName, e.getMessage());
+            throw new CensorException(inFileName, e.getMessage());
         }
 
     }
 
     public static void main(String[] args) {
         String[] obscene = {"Java", "Oracle", "Sun", "Microsystems"};
-        try {
-            censorFile("D:\\file1.txt", obscene);
-        } catch (CensorException e) {
-            //
-        }
+//        try {
+//            censorFile("D:\\file1.txt", obscene);
+//        } catch (CensorException e) {
+//            //
+//        }
     }
 }
