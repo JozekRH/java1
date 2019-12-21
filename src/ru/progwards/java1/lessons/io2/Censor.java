@@ -21,9 +21,8 @@ public class Censor {
         }
     }
 
-    public static void censorFile(String inFileName, String outFileName, String[] obscene) throws CensorException {
-        try(RandomAccessFile raf = new RandomAccessFile(inFileName, "rw");
-            RandomAccessFile outRaf = new RandomAccessFile(outFileName, "rw")) {
+    public static void censorFile(String inoutFileName, String[] obscene) throws CensorException {
+        try(RandomAccessFile raf = new RandomAccessFile(inoutFileName, "rw")) {
             StringBuilder sb = new StringBuilder();
             long startWordPos = 0;
             long lastStopPos = 0;
@@ -38,32 +37,33 @@ public class Censor {
                     sb.append(curChar);
                 }
                 String currentWord = sb.toString();
+                currentWord = new String(currentWord.getBytes("ISO-8859-1"), "UTF-8");
                 for (String obsceneWord : obscene) {
                     int index = currentWord.indexOf(obsceneWord);
                     if (index != -1) {
                         raf.seek(startWordPos + (long)index);
-                        outRaf.seek(startWordPos + (long)index);
                         for (int i = 0; i < obsceneWord.length(); i++) {
-                            outRaf.write('*');
+                            raf.write((byte)'*');
                         }
                     }
                 }
                 raf.seek(lastStopPos);
-                outRaf.seek(lastStopPos);
             }
 
         } catch (Exception e) {
-            throw new CensorException(inFileName, e.getMessage());
+            throw new CensorException(inoutFileName, e.getMessage());
         }
 
     }
 
     public static void main(String[] args) {
-        String[] obscene = {"Java", "Oracle", "Sun", "Microsystems"};
-//        try {
-//            censorFile("D:\\file1.txt", obscene);
-//        } catch (CensorException e) {
-//            //
-//        }
+        String[] obscene1 = {"Java", "Oracle", "Sun", "Microsystems"};
+        String[] obscene2 = {"дрова", "соединение", "выпей", "внучка", "космонавт", "ещё", "единица", "трава"};
+        try {
+            //censorFile("D:\\file1.txt", obscene1);
+            censorFile("D:\\file2.txt", obscene2);
+        } catch (CensorException e) {
+            //
+        }
     }
 }
