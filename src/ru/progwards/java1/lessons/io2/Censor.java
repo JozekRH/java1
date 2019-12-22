@@ -1,6 +1,7 @@
 package ru.progwards.java1.lessons.io2;
 
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 
 public class Censor {
 
@@ -42,11 +43,15 @@ public class Censor {
                     int index = currentWord.indexOf(obsceneWord);
                     if (index != -1) {
                         raf.seek(startWordPos + (long)index);
+                        //String starString = "*".repeat(obsceneWord.length());
+                        //raf.write(starString.getBytes(StandardCharsets.UTF_8));
                         for (int i = 0; i < obsceneWord.length(); i++) {
-                            raf.write('*');
-                            //raf.seek(raf.getFilePointer()-1);
-                            //raf.writeChar(42);
+                            //raf.write("*".getBytes(StandardCharsets.UTF_8));
+                            //raf.writeByte(42);
+                            raf.writeChar(42);
+                            //raf.write(42);
                         }
+                        break;
                     }
                 }
                 raf.seek(lastStopPos);
@@ -62,8 +67,8 @@ public class Censor {
         String[] obscene1 = {"Java", "Oracle", "Sun", "Microsystems"};
         String[] obscene2 = {"дрова", "соединение", "выпей", "внучка", "космонавт", "ещё", "единица", "трава"};
         try {
-            //censorFile("D:\\file1.txt", obscene1);
-            censorFile("D:\\file2.txt", obscene2);
+            censorFile("D:\\progwards\\file1.txt", obscene1);
+            //censorFile("D:\\progwards\\file2.txt", obscene2);
         } catch (CensorException e) {
             //
         }
