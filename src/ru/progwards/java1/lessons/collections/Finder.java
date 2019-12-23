@@ -4,6 +4,20 @@ import java.util.*;
 
 public class Finder {
 
+    public static void main(String[] args) {
+        int[] numArr = {-87,-51,11,43,-71,44,97,-51};
+        Collection<Integer> nums = new ArrayList<>();
+        for (Integer number : numArr) {
+            nums.add(number);
+        }
+        System.out.println(findLocalMax(nums));
+
+        String[] strArr = {"Борис", "Дмитрий", "Александр", "Александр", "Александр", "Борис", "Григорий",
+                "Борис"};
+        Collection<String> namesCol = new ArrayList<>(Arrays.asList(strArr));
+        System.out.println(findSimilar(namesCol));
+    }
+
     public static Collection<Integer> findMinSumPair(Collection<Integer> numbers) {
         Iterator<Integer> iterator = numbers.iterator();
         Integer firstNum = iterator.next();
@@ -13,12 +27,12 @@ public class Finder {
         int secondIndex = 1;
         int resFirstIndex = firstIndex;
         int resSecondIndex = secondIndex;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             firstNum = secondNum;
             secondNum = iterator.next();
             firstIndex++;
             secondIndex++;
-            if(sum > firstNum + secondNum) {
+            if (sum > firstNum + secondNum) {
                 sum = firstNum + secondNum;
                 resFirstIndex = firstIndex;
                 resSecondIndex = secondIndex;
@@ -33,56 +47,56 @@ public class Finder {
     public static Collection<Integer> findLocalMax(Collection<Integer> numbers) {
         Collection<Integer> res = new ArrayList<>();
         Iterator<Integer> iterator = numbers.iterator();
-        int left = iterator.next();
+        int left;
         int current = iterator.next();
         int right = iterator.next();
-        while(iterator.hasNext()) {
-            if(current > left && current > right) {
-                res.add(current);
-            }
+        while (iterator.hasNext()) {
             left = current;
             current = right;
             right = iterator.next();
+            if (current > left && current > right) {
+                res.add(current);
+            }
         }
         return res;
     }
 
     public static boolean findSequence(Collection<Integer> numbers) {
         int size = numbers.size();
-        for(int i = 1; i <= size; i++) {
-            if(!numbers.contains(i))
+        for (int i = 1; i <= size; i++) {
+            if (!numbers.contains(i))
                 return false;
         }
         return true;
     }
 
     public static String findSimilar(Collection<String> names) {
-        List<String> nameSet = new ArrayList<>();
-        List<Integer> nameCounter = new ArrayList<>();
+        LinkedList<String> nameStack = new LinkedList<>();
+        int nameCount = 0;
+        int maxNameCount = 0;
         Iterator<String> iterator = names.iterator();
         String currentName = "";
-        outer:
         while (iterator.hasNext()) {
             currentName = iterator.next();
-            for (int i = 0; i < nameSet.size(); i++) {
-                if(currentName.equals(nameSet.get(i))) {
-                    nameCounter.set(i, nameCounter.get(i)+1);
-                    continue outer;
+            if (currentName.equals(nameStack.peek())) {
+                nameCount++;
+            } else {
+                if (nameCount > maxNameCount) {
+                    maxNameCount = nameCount;
+                } else {
+                    nameStack.poll();
                 }
-            }
-            nameSet.add(currentName);
-            nameCounter.add(1);
-        }
-        int maxRepeat = 0;
-        int indexMaxRepeat = 0;
-        int currentRepeat = 0;
-        for (int i = 0; i < nameCounter.size(); i++) {
-            currentRepeat = nameCounter.get(i);
-            if(maxRepeat < currentRepeat) {
-                maxRepeat = currentRepeat;
-                indexMaxRepeat = i;
+                nameCount = 1;
+                nameStack.push(currentName);
             }
         }
-        return nameSet.get(indexMaxRepeat) + ":" + maxRepeat;
+        if(nameCount > maxNameCount) {
+            maxNameCount = nameCount;
+        } else {
+            nameStack.poll();
+        }
+        System.out.println(nameStack);
+        System.out.println(maxNameCount);
+        return nameStack.peek() + ":" + maxNameCount;
     }
 }
