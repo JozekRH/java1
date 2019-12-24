@@ -74,29 +74,22 @@ public class ProductAnalytics {
 
     public Set<Product> existOnlyInOne() {
         Set<Product> productsOnlyInOne = new HashSet<>(allProducts);
-        Set<Product> productsToRemove = new HashSet<>();
-        boolean productExist = false;
-        allProductsLoop:
+        int numberOfShopsWithProduct;
         for(Product product : productsOnlyInOne) {
+            numberOfShopsWithProduct = 0;
             shopsLoop:
             for (Shop shop : shops) {
                 List<Product> productsInCurrentShop = shop.getProducts();
                 for (Product currentProduct : productsInCurrentShop) {
                     if (currentProduct.getCode().equals(product.getCode())) {
-                        if(!productExist) {
-                            productExist = true;
-                            continue shopsLoop;
-                        } else {
-                            productExist = false;
-                            productsToRemove.add(product);
-                            continue allProductsLoop;
-                        }
+                        numberOfShopsWithProduct++;
+                        continue shopsLoop;
                     }
                 }
             }
-            productExist = false;
+            if(numberOfShopsWithProduct == 1)
+                productsOnlyInOne.add(product);
         }
-        productsOnlyInOne.removeAll(productsToRemove);
         return productsOnlyInOne;
     }
 }
