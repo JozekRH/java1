@@ -15,6 +15,7 @@ public class ProductAnalytics {
 
     public Set<Product> existInAll() {
         Set<Product> productsInAllShops = new HashSet<>(allProducts);
+        Set<Product> productsToRemove = new HashSet<>();
         allProductsLoop:
         for(Product product : productsInAllShops) {
             shopsLoop:
@@ -25,15 +26,17 @@ public class ProductAnalytics {
                         continue shopsLoop;
                     }
                 }
-                productsInAllShops.remove(product);
+                productsToRemove.add(product);
                 continue allProductsLoop;
             }
         }
+        productsInAllShops.removeAll(productsToRemove);
         return productsInAllShops;
     }
 
     public Set<Product> existAtListInOne() {
         Set<Product> productsAtListInOne = new HashSet<>(allProducts);
+        Set<Product> productsToRemove = new HashSet<>();
         allProductsLoop:
         for(Product product : productsAtListInOne) {
             for (Shop shop : shops) {
@@ -44,30 +47,34 @@ public class ProductAnalytics {
                     }
                 }
             }
-            productsAtListInOne.remove(product);
+            productsToRemove.add(product);
         }
+        productsAtListInOne.removeAll(productsToRemove);
         return productsAtListInOne;
     }
 
     public Set<Product> notExistInShops() {
         Set<Product> productsNotExistInShops = new HashSet<>(allProducts);
+        Set<Product> productsToRemove = new HashSet<>();
         allProductsLoop:
         for(Product product : productsNotExistInShops) {
             for (Shop shop : shops) {
                 List<Product> productsInCurrentShop = shop.getProducts();
                 for (Product currentProduct : productsInCurrentShop) {
                     if (currentProduct.getCode().equals(product.getCode())) {
-                        productsNotExistInShops.remove(product);
+                        productsToRemove.add(product);
                         continue allProductsLoop;
                     }
                 }
             }
         }
+        productsNotExistInShops.removeAll(productsToRemove);
         return productsNotExistInShops;
     }
 
     public Set<Product> existOnlyInOne() {
         Set<Product> productsOnlyInOne = new HashSet<>(allProducts);
+        Set<Product> productsToRemove = new HashSet<>();
         boolean productExist = false;
         allProductsLoop:
         for(Product product : productsOnlyInOne) {
@@ -81,7 +88,7 @@ public class ProductAnalytics {
                             continue shopsLoop;
                         } else {
                             productExist = false;
-                            productsOnlyInOne.remove(product);
+                            productsToRemove.add(product);
                             continue allProductsLoop;
                         }
                     }
@@ -89,6 +96,7 @@ public class ProductAnalytics {
             }
             productExist = false;
         }
+        productsOnlyInOne.removeAll(productsToRemove);
         return productsOnlyInOne;
     }
 }
