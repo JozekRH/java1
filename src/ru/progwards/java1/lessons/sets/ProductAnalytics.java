@@ -73,9 +73,9 @@ public class ProductAnalytics {
     }
 
     public Set<Product> existOnlyInOne() {
-        Set<Product> productsOnlyInOne = new HashSet<>(allProducts);
+        Set<Product> productsOnlyInOne = new HashSet<>();
         int numberOfShopsWithProduct;
-        for(Product product : productsOnlyInOne) {
+        for(Product product : allProducts) {
             numberOfShopsWithProduct = 0;
             shopsLoop:
             for (Shop shop : shops) {
