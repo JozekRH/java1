@@ -54,21 +54,19 @@ public class CollectionsSort {
         mySort(list);
         long end = System.currentTimeMillis() - start;
         funcQueueSortedByTime.add(new SortType("mySort", end));
-        System.out.println("mySort" + "   " + end);
 
-        Collections.shuffle(list);
-        start = System.currentTimeMillis();
-        minSort(list);
-        end = System.currentTimeMillis() - start;
-        funcQueueSortedByTime.add(new SortType("minSort", end));
-        System.out.println("minSort" + "   " + end);
+//        Collections.shuffle(list);
+//        start = System.currentTimeMillis();
+//        minSort(list);
+//        end = System.currentTimeMillis() - start;
+//        funcQueueSortedByTime.add(new SortType("minSort", end));
+//        System.out.println("minSort" + "   " + end);
 
         Collections.shuffle(list);
         start = System.currentTimeMillis();
         collSort(list);
         end = System.currentTimeMillis() - start;
         funcQueueSortedByTime.add(new SortType("collSort", end));
-        System.out.println("collSort" + "   " + end);
 
         Queue<String> funcNameQueue = new ArrayDeque<>();
         while(!funcQueueSortedByTime.isEmpty()) {

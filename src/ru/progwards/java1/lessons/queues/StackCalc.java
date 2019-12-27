@@ -26,7 +26,7 @@ public class StackCalc {
     public void sub() {
         double first = stack.pop();
         double second = stack.pop();
-        stack.push(second - first);
+        stack.push(first - second);
     }
 
     public void mul() {
@@ -38,6 +38,6 @@ public class StackCalc {
     public void div() {
         double first = stack.pop();
         double second = stack.pop();
-        stack.push(second / first);
+        stack.push(first / second);
     }
 }
