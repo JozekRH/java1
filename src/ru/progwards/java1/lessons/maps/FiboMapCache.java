@@ -31,6 +31,9 @@ public class FiboMapCache {
 
     public BigDecimal fiboNumber(int n) {
         if (cacheOn) {
+            if(fiboCache == null) {
+                fiboCache = new TreeMap<>();
+            }
             if (fiboCache.containsKey(n)) {
                 return fiboCache.get(n);
             }
