@@ -1,7 +1,5 @@
 package ru.progwards.java1.lessons.maps;
 
-import org.glassfish.grizzly.utils.Pair;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -10,7 +8,7 @@ public class SalesInfo {
 
     private static String orders;
 
-    public static int loadOrders(String fileName) {
+    public int loadOrders(String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         int linesNumber = 0;
         try(FileReader fileReader = new FileReader(fileName);
@@ -34,7 +32,7 @@ public class SalesInfo {
         return linesNumber;
     }
 
-    public static Map<String, Double> getGoods() {
+    public Map<String, Double> getGoods() {
         Map<String, Double> map = new TreeMap<>();
         try(Scanner sc = new Scanner(orders)) {
             while (sc.hasNextLine()) {
@@ -54,8 +52,10 @@ public class SalesInfo {
         return  map;
     }
 
-    public static Map<String, Pair<Double, Integer>> getCustomers() {
-        Map<String, Pair<Double, Integer>> map = new TreeMap<>();
+
+    public Map<String, AbstractMap.SimpleEntry<Double, Integer>> getCustomers() {
+
+        Map<String, AbstractMap.SimpleEntry<Double, Integer>> map = new TreeMap<>();
         try(Scanner sc = new Scanner(orders)) {
             while (sc.hasNextLine()) {
                 String str = sc.nextLine();
@@ -63,14 +63,14 @@ public class SalesInfo {
                 String customerName = fieldsInLine[0];
                 Integer goodsNumber = Integer.valueOf(fieldsInLine[2]);
                 Double cost = Double.valueOf(fieldsInLine[3]);
+
                 if(map.containsKey(customerName)) {
-                    Pair<Double, Integer> customerData = map.get(customerName);
-                    customerData.setFirst(customerData.getFirst() + cost);
-                    customerData.setSecond(customerData.getSecond() + goodsNumber);
-                    map.put(customerName, customerData);
-                } else {
-                    map.put(customerName, new Pair<>(cost, goodsNumber));
+                    AbstractMap.SimpleEntry<Double, Integer> customerData = map.get(customerName);
+                    cost = customerData.getKey() + cost;
+                    goodsNumber = customerData.getValue() + goodsNumber;
                 }
+
+                map.put(customerName, new AbstractMap.SimpleEntry<>(cost, goodsNumber));
             }
 
         }
@@ -79,10 +79,11 @@ public class SalesInfo {
 
     public static void main(String[] args) {
         String fileName = "D:\\sales.csv";
+        SalesInfo salesInfo = new SalesInfo();
         System.out.println(orders);
-        System.out.println(loadOrders(fileName));
+        System.out.println(salesInfo.loadOrders(fileName));
         System.out.println(orders);
-        System.out.println(getGoods());
-        System.out.println(getCustomers());
+        System.out.println(salesInfo.getGoods());
+        System.out.println(salesInfo.getCustomers());
     }
 }
