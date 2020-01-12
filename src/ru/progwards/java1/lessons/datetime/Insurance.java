@@ -44,12 +44,12 @@ public class Insurance {
     }
 
     public void setDuration(ZonedDateTime expiration) {
-        this.duration = Duration.between(expiration, this.start);
+        this.duration = Duration.between(start, expiration);
     }
 
     public void setDuration(int months, int days, int hours) {
-        ZonedDateTime expiration = this.start.plusMonths(months).plusDays(days).plusHours(hours);
-        this.duration = Duration.between(expiration, this.start);
+        ZonedDateTime expiration = start.plusMonths(months).plusDays(days).plusHours(hours);
+        this.duration = Duration.between(start, expiration);
     }
 
     public void setDuration(String strDuration, FormatStyle style) {
@@ -61,8 +61,8 @@ public class Insurance {
             case LONG:
                 DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
                 LocalDateTime expiration = LocalDateTime.parse(strDuration, dtf);
-                this.duration = Duration.between(expiration.plusMonths(1).plusDays(1),
-                        LocalDateTime.of(0,1,1,0,0,0,0));
+                this.duration = Duration.between(LocalDateTime.of(0,1,1,0,0,
+                        0,0), expiration.plusMonths(1).plusDays(1));
                 break;
             case FULL:
                 this.duration = Duration.parse(strDuration);
