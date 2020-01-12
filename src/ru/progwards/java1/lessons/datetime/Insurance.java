@@ -61,7 +61,8 @@ public class Insurance {
             case LONG:
                 DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
                 LocalDateTime expiration = LocalDateTime.parse(strDuration, dtf);
-                this.duration = Duration.between(expiration.plusMonths(1), LocalDateTime.of(0,1,0,0,0,0,0));
+                this.duration = Duration.between(expiration.plusMonths(1).plusDays(1),
+                        LocalDateTime.of(0,1,1,0,0,0,0));
                 break;
             case FULL:
                 this.duration = Duration.parse(strDuration);
