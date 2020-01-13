@@ -39,7 +39,7 @@ public class Profiler {
     }
 
     public static List<StatisticInfo> getStatisticInfo() {
-        return (List<StatisticInfo>)sectionMap.values();
+        return new ArrayList<StatisticInfo>(sectionMap.values());
     }
 
 }
