@@ -26,6 +26,7 @@ public class SessionManager {
                 if ((userSession.getLastAccess() + sessionValid) <= (int) Instant.now().getEpochSecond()) {
                     return null;
                 } else {
+                    userSession.updateLastAccess();
                     return userSession;
                 }
             }
@@ -39,6 +40,7 @@ public class SessionManager {
         UserSession userSession = sessions.get(sessionHandle);
         if ((userSession.getLastAccess() + sessionValid) <= (int) Instant.now().getEpochSecond())
             return null;
+        userSession.updateLastAccess();
         return userSession;
     }
 
@@ -53,5 +55,9 @@ public class SessionManager {
                 userSessionsCollection.remove(userSession);
             }
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }
