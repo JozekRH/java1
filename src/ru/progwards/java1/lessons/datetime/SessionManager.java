@@ -46,7 +46,9 @@ public class SessionManager {
     }
 
     public void deleteExpired() {
-        UserSession[] userSessionsArr = (UserSession[])sessions.values().toArray();
+        Collection<UserSession> sessionsCollection = sessions.values();
+        UserSession[] userSessionsArr = new UserSession[sessionsCollection.size()];
+        userSessionsArr = sessionsCollection.toArray(userSessionsArr);
         for(int i = 0; i < userSessionsArr.length; i++) {
             if ((userSessionsArr[i].getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
                 delete(userSessionsArr[i].getSessionHandle());
@@ -68,6 +70,8 @@ public class SessionManager {
         System.out.println(userSession.getLastAccess());
         Thread.sleep(2000);
         System.out.println(sessionManager.get(handle));
-        System.out.println(userSession.getLastAccess());
+        System.out.println(sessionManager.sessions.size());
+        sessionManager.deleteExpired();
+        System.out.println(sessionManager.sessions.size());
     }
 }
