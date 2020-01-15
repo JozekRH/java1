@@ -1,10 +1,7 @@
 package ru.progwards.java1.lessons.datetime;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class SessionManager {
     private Map<Integer, UserSession> sessions;
@@ -49,12 +46,10 @@ public class SessionManager {
     }
 
     public void deleteExpired() {
-        Collection<UserSession> userSessionsCollection = sessions.values();
-        Iterator<UserSession> iterator = userSessionsCollection.iterator();
-        while(iterator.hasNext()) {
-            UserSession userSession = iterator.next();
-            if ((userSession.getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
-                userSessionsCollection.remove(userSession);
+        UserSession[] userSessionsArr = (UserSession[])sessions.values().toArray();
+        for(int i = 0; i < userSessionsArr.length; i++) {
+            if ((userSessionsArr[i].getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
+                delete(userSessionsArr[i].getSessionHandle());
             }
         }
     }
