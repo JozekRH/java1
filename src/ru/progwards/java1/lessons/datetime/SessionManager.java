@@ -3,6 +3,7 @@ package ru.progwards.java1.lessons.datetime;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class SessionManager {
@@ -49,7 +50,9 @@ public class SessionManager {
 
     public void deleteExpired() {
         Collection<UserSession> userSessionsCollection = sessions.values();
-        for (UserSession userSession : userSessionsCollection) {
+        Iterator<UserSession> iterator = userSessionsCollection.iterator();
+        while(iterator.hasNext()) {
+            UserSession userSession = iterator.next();
             if ((userSession.getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
                 userSessionsCollection.remove(userSession);
             }
@@ -58,7 +61,7 @@ public class SessionManager {
 
     public static void main(String[] args) throws InterruptedException {
         SessionManager sessionManager = new SessionManager(2);
-        //System.out.println(sessionManager.find("User1"));
+        System.out.println(sessionManager.find("User1"));
         UserSession userSession = new UserSession("User1");
         int handle = userSession.getSessionHandle();
         sessionManager.add(userSession);
