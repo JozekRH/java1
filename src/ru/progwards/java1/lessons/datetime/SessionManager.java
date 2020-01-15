@@ -2,7 +2,6 @@ package ru.progwards.java1.lessons.datetime;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class SessionManager {
         Collection<UserSession> userSessionsCollection = sessions.values();
         for (UserSession userSession : userSessionsCollection) {
             if (userName.equals(userSession.getUserName())) {
-                if ((userSession.getLastAccess() + sessionValid) <= (int) Instant.now().getEpochSecond()) {
+                if ((userSession.getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
                     return null;
                 } else {
                     userSession.updateLastAccess();
@@ -38,7 +37,7 @@ public class SessionManager {
         if (!sessions.containsKey(sessionHandle))
             return null;
         UserSession userSession = sessions.get(sessionHandle);
-        if ((userSession.getLastAccess() + sessionValid) <= (int) Instant.now().getEpochSecond())
+        if ((userSession.getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli())
             return null;
         userSession.updateLastAccess();
         return userSession;
@@ -51,13 +50,26 @@ public class SessionManager {
     public void deleteExpired() {
         Collection<UserSession> userSessionsCollection = sessions.values();
         for (UserSession userSession : userSessionsCollection) {
-            if ((userSession.getLastAccess() + sessionValid) <= (int) Instant.now().getEpochSecond()) {
+            if ((userSession.getLastAccess() + sessionValid*1000) <= Instant.now().toEpochMilli()) {
                 userSessionsCollection.remove(userSession);
             }
         }
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws InterruptedException {
+        SessionManager sessionManager = new SessionManager(2);
+        //System.out.println(sessionManager.find("User1"));
+        UserSession userSession = new UserSession("User1");
+        int handle = userSession.getSessionHandle();
+        sessionManager.add(userSession);
+        System.out.println(sessionManager.get(handle).getLastAccess());
+        Thread.sleep(1000);
+        System.out.println(sessionManager.get(handle).getLastAccess());
+        Thread.sleep(1000);
+        System.out.println(sessionManager.get(handle).getLastAccess());
+        System.out.println(userSession.getLastAccess());
+        Thread.sleep(2000);
+        System.out.println(sessionManager.get(handle));
+        System.out.println(userSession.getLastAccess());
     }
 }

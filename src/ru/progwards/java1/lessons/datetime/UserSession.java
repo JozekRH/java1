@@ -6,7 +6,7 @@ import java.util.Random;
 public class UserSession {
     private int sessionHandle;
     private String userName;
-    private int lastAccess;
+    private long lastAccess;
 
     public int getSessionHandle() {
         return sessionHandle;
@@ -16,17 +16,17 @@ public class UserSession {
         return userName;
     }
 
-    public int getLastAccess() {
+    public long getLastAccess() {
         return lastAccess;
     }
 
     public void updateLastAccess() {
-        lastAccess = (int)Instant.now().getEpochSecond();
+        lastAccess = Instant.now().toEpochMilli();
     }
 
     public UserSession(String userName) {
         this.userName = userName;
-        this.lastAccess = (int)Instant.now().getEpochSecond();
+        updateLastAccess();
         Random random = new Random((int)Instant.now().getEpochSecond());
         this.sessionHandle = random.nextInt();
     }
