@@ -27,7 +27,7 @@ public class UserSession {
     public UserSession(String userName) {
         this.userName = userName;
         updateLastAccess();
-        Random random = new Random((int)Instant.now().getEpochSecond());
+        Random random = new Random();
         this.sessionHandle = random.nextInt();
     }
 }
