@@ -70,6 +70,8 @@ public class Insurance {
     }
 
     public boolean checkValid(ZonedDateTime dateTime) {
+        if(start.isAfter(ZonedDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())))
+            return false;
         if(duration == null)
             return true;
         return start.plus(duration).isAfter(dateTime);
