@@ -21,7 +21,7 @@ public class FindDuplicates {
                 for (List<String> similarFilesList : duplicateList) {
                     Path pathFromList = Paths.get(similarFilesList.get(0));
                     if (file.getFileName().toString().equals(pathFromList.getFileName().toString())
-                            && attrs.creationTime().equals(Files.getAttribute(pathFromList, "basic:creationTime"))
+                            && attrs.lastModifiedTime().equals(Files.getLastModifiedTime(pathFromList))
                             && attrs.size() == (Long) Files.getAttribute(pathFromList, "basic:size")
                             && Files.readString(file).equals(Files.readString(pathFromList))) {
                         similarFilesList.add(file.toString());
