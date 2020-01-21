@@ -7,14 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FindDuplicates {
-    private List<List<String>> duplicateList;
-
-    public FindDuplicates() {
-        this.duplicateList = new ArrayList<>();
-    }
 
     List<List<String>> findDuplicates(String startPath) throws IOException {
-        duplicateList.clear();
+        List<List<String>> duplicateList = new ArrayList<>();
         Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -31,6 +26,11 @@ public class FindDuplicates {
                 List<String> newList = new ArrayList<>();
                 newList.add(file.toString());
                 duplicateList.add(newList);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
                 return FileVisitResult.CONTINUE;
             }
         });
