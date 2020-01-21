@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class FindDuplicates {
@@ -37,6 +38,11 @@ public class FindDuplicates {
             });
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+        Iterator<List<String>> iterator = duplicateList.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().size() == 1)
+                iterator.remove();
         }
         return duplicateList;
     }

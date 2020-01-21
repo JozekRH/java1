@@ -19,7 +19,7 @@ public class FilesSelect {
                                 if (Files.notExists(keyDir))
                                     Files.createDirectory(keyDir);
                                 Path targetDir = keyDir.resolve(file.getFileName());
-                                Files.copy(file, targetDir);
+                                Files.copy(file, targetDir, StandardCopyOption.REPLACE_EXISTING);
                             }
                         }
                     }
@@ -32,7 +32,7 @@ public class FilesSelect {
                 }
             });
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
