@@ -50,6 +50,8 @@ public class OrderProcessor {
 
                         String fileName = file.getFileName().toString();
                         String[] idsArr = fileName.split("-");
+                        if (idsArr.length != 3)
+                            return FileVisitResult.CONTINUE;
                         Order order = new Order();
                         order.shopId = idsArr[0];
                         order.orderId = idsArr[1];
