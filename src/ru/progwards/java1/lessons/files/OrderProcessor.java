@@ -33,7 +33,7 @@ public class OrderProcessor {
         if (shopId == null)
             shopId = "";
 
-        PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/" + shopId + "*.txt");
+        PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/" + shopId + "*.csv");
         try {
             Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
                 @Override
