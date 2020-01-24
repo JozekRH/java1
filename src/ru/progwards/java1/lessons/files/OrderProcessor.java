@@ -100,7 +100,7 @@ public class OrderProcessor {
                             OrderItem orderItem = new OrderItem();
                             orderItem.count = goodsCount;
                             orderItem.price = oneGoodPrice;
-                            orderItem.goodsName = strArr[0];
+                            orderItem.googsName = strArr[0];
 
                             order.items.add(orderItem);
                             order.sum += (goodsCount * oneGoodPrice);
@@ -167,9 +167,9 @@ public class OrderProcessor {
             ) {
                 for (OrderItem orderItem : order.items
                 ) {
-                    statisticByGoods.putIfAbsent(orderItem.goodsName, 0.0);
-                    double sum = statisticByGoods.get(orderItem.goodsName) + orderItem.price * (double) orderItem.count;
-                    statisticByGoods.put(orderItem.goodsName, sum);
+                    statisticByGoods.putIfAbsent(orderItem.googsName, 0.0);
+                    double sum = statisticByGoods.get(orderItem.googsName) + orderItem.price * (double) orderItem.count;
+                    statisticByGoods.put(orderItem.googsName, sum);
                 }
             }
         }
