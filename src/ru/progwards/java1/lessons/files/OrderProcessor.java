@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderProcessor {
 
@@ -16,7 +14,7 @@ public class OrderProcessor {
 
     public OrderProcessor(String startPath) {
         this.startPath = startPath;
-        failedFileNumber = 0;
+        this.failedFileNumber = 0;
     }
 
     //    загружает заказы за указанный диапазон дат, с start до finish, обе даты включительно.
@@ -26,71 +24,170 @@ public class OrderProcessor {
 //    Метод возвращает количество файлов с ошибками. При этом, если в классе содержалась информация, ее надо удалить
     public int loadOrders(LocalDate start, LocalDate finish, String shopId) {
 
-        if (start == null)
-            start = LocalDate.of(1970, 1, 1);
-        if (finish == null)
-            finish = LocalDate.now();
+        LocalDate startDate = (start == null) ? LocalDate.of(1970, 1, 1) : start;// Почему IDE требует создавать новую
+        // переменную startDate и не позволяет использовать параметр start, передаваемый в функцию ???
+
+        LocalDate finishDate = (finish == null) ? LocalDate.now() : finish; // Почему IDE требует создавать новую
+        // переменную finishDate и не позволяет использовать параметр finish, передаваемый в функцию ???
+
         if (shopId == null)
             shopId = "";
+
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/" + shopId + "*.txt");
         try {
             Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    String fileName = file.getFileName().toString();
-                    String[] idsArr = fileName.split("-");
-                    Order order = new Order();
-                    order.shopId = idsArr[0];
-                    order.orderId = idsArr[1];
-                    order.customerId = idsArr[2];
-                    order.datetime = LocalDateTime.ofInstant(Files.getLastModifiedTime(file).toInstant(), ZoneId.systemDefault());
-                    order.items = new ArrayList<>();
-                    order.sum = 0;
-                    List<String> goods = Files.readAllLines(file);
-                    for (String goodStr : goods
-                         ) {
-                        String[] strArr = goodStr.trim().split("\\s*,\\s*");
+                    if (pathMatcher.matches(file)) {
 
-                        if (strArr.length != 3) {
-                            failedFileNumber++;
+                        LocalDateTime lastDateTime = LocalDateTime
+                                .ofInstant(attrs.lastModifiedTime().toInstant(), ZoneId.systemDefault());
+
+                        if (LocalDate.from(lastDateTime).isBefore(startDate)
+                                || LocalDate.from(lastDateTime).isAfter(finishDate)) {
                             return FileVisitResult.CONTINUE;
                         }
 
-                        int goodsCount = Integer.parseInt(strArr[1]);
-                        double oneGoodPrice = Double.parseDouble(strArr[2]);
+                        String fileName = file.getFileName().toString();
+                        String[] idsArr = fileName.split("-");
+                        Order order = new Order();
+                        order.shopId = idsArr[0];
+                        order.orderId = idsArr[1];
+                        order.customerId = idsArr[2];
+                        order.datetime = lastDateTime;
+                        order.items = new ArrayList<>();
+                        order.sum = 0;
 
-                        OrderItem orderItem = new OrderItem();
-                        orderItem.count = goodsCount;
-                        orderItem.price = oneGoodPrice;
-                        orderItem.goodsName = strArr[0];
+                        List<String> goods = Files.readAllLines(file);
+                        for (String goodStr : goods
+                        ) {
+                            String[] strArr = goodStr.trim().split("\\s*,\\s*");
 
-                        order.items.add(orderItem);
-                        order.sum += (goodsCount * oneGoodPrice);
+                            if (strArr.length != 3) {
+                                failedFileNumber++;
+                                return FileVisitResult.CONTINUE;
+                            }
 
-//                        for (char ch : strArr[1].toCharArray()
-//                             ) {
-//                            if (!Character.isDigit(ch))
-//                                return FileVisitResult.CONTINUE;
-//                        }
-//
-//                        int decimalSeparatorCounter = 0;
-//                        for (char ch : strArr[2].toCharArray()
-//                        ) {
-//                            if (!Character.isDigit(ch) || !String.valueOf(ch).equals("."))
-//                                return FileVisitResult.CONTINUE;
-//
-//                        }
+                            for (char ch : strArr[1].toCharArray()
+                            ) {
+                                if (!Character.isDigit(ch)) {
+                                    failedFileNumber++;
+                                    return FileVisitResult.CONTINUE;
+                                }
+                            }
+
+                            int decimalSeparatorCounter = 0;
+                            for (char ch : strArr[2].toCharArray()
+                            ) {
+                                if (Character.isDigit(ch))
+                                    continue;
+
+                                if (String.valueOf(ch).equals(".")) {
+                                    decimalSeparatorCounter++;
+                                    if (decimalSeparatorCounter > 1) {
+                                        failedFileNumber++;
+                                        return FileVisitResult.CONTINUE;
+                                    }
+                                } else {
+                                    failedFileNumber++;
+                                    return FileVisitResult.CONTINUE;
+                                }
+                            }
+
+                            int goodsCount = Integer.parseInt(strArr[1]);
+                            double oneGoodPrice = Double.parseDouble(strArr[2]);
+
+                            OrderItem orderItem = new OrderItem();
+                            orderItem.count = goodsCount;
+                            orderItem.price = oneGoodPrice;
+                            orderItem.goodsName = strArr[0];
+
+                            order.items.add(orderItem);
+                            order.sum += (goodsCount * oneGoodPrice);
+                        }
+
+                        ordersByShops.putIfAbsent(order.shopId, new ArrayList<>());
+                        ordersByShops.get(order.shopId).add(order);
                     }
+                    return FileVisitResult.CONTINUE;
+                }
 
-                    ordersByShops.putIfAbsent(order.shopId, new ArrayList<>());
-                    ordersByShops.get(order.shopId).add(order);
-
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
                     return FileVisitResult.CONTINUE;
                 }
             });
+
         } catch (IOException e) {
-            //
+            e.printStackTrace();
         }
-            return failedFileNumber;
-        }
+
+        return failedFileNumber;
     }
+
+    public List<Order> process(String shopId) {
+        List<Order> ordersList = new ArrayList<>();
+        if (shopId == null) {
+            for (List<Order> oneShopOrders : ordersByShops.values()
+            ) {
+                ordersList.addAll(oneShopOrders);
+            }
+        } else {
+            if (ordersByShops.containsKey(shopId))
+                ordersList.addAll(ordersByShops.get(shopId));
+        }
+        ordersList.sort(new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return o1.datetime.compareTo(o2.datetime);
+            }
+        });
+        return ordersList;
+    }
+
+    public Map<String, Double> statisticsByShop() {
+        SortedMap<String, Double> statisticByShops = new TreeMap<>();
+        for (String shopId : ordersByShops.keySet()
+        ) {
+            double sum = 0.0;
+            for (Order order : ordersByShops.get(shopId)
+            ) {
+                sum += order.sum;
+            }
+            statisticByShops.put(shopId, sum);
+        }
+        return statisticByShops;
+    }
+
+    public Map<String, Double> statisticsByGoods() {
+        SortedMap<String, Double> statisticByGoods = new TreeMap<>();
+        for (String shopId : ordersByShops.keySet()
+        ) {
+            for (Order order : ordersByShops.get(shopId)
+            ) {
+                for (OrderItem orderItem : order.items
+                ) {
+                    statisticByGoods.putIfAbsent(orderItem.goodsName, 0.0);
+                    double sum = statisticByGoods.get(orderItem.goodsName) + orderItem.price * (double) orderItem.count;
+                    statisticByGoods.put(orderItem.goodsName, sum);
+                }
+            }
+        }
+        return statisticByGoods;
+    }
+
+    public Map<LocalDate, Double> statisticsByDay() {
+        SortedMap<LocalDate, Double> statisticByDays = new TreeMap<>();
+        for (String shopId : ordersByShops.keySet()
+        ) {
+            for (Order order : ordersByShops.get(shopId)
+            ) {
+                LocalDate date = LocalDate.from(order.datetime);
+                statisticByDays.putIfAbsent(date, 0.0);
+                double sum = statisticByDays.get(date) + order.sum;
+                statisticByDays.put(date, sum);
+            }
+        }
+        return statisticByDays;
+    }
+}
