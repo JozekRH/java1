@@ -15,6 +15,7 @@ public class OrderProcessor {
     public OrderProcessor(String startPath) {
         this.startPath = startPath;
         this.failedFileNumber = 0;
+        this.ordersByShops = new HashMap<>();
     }
 
     //    загружает заказы за указанный диапазон дат, с start до finish, обе даты включительно.
