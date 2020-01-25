@@ -22,7 +22,6 @@ public class Summator {
                 }
             }
             noOverflow = false;
-            Counter.inc(value1);
         }
         return noOverflow;
     }

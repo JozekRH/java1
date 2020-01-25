@@ -25,7 +25,7 @@ public class ByteRegister {
     public String toString() { // вывод в двоичном виде
         int bitValue = 0;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < byteValue.length; i++) {
+        for (int i = byteValue.length-1; i >= 0; i--) {
             bitValue = byteValue[i].value ? 1 : 0;
             sb.append(bitValue);
         }

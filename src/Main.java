@@ -24,6 +24,13 @@ public class Main {
         //File file = new File("./created");
         //System.out.println(file.mkdir());
         //System.out.println(path.toAbsolutePath().normalize().getParent());
+        int res = (-127 & 0xFF) + ((-128) & 0xFF);
+        System.out.println(res);
+        //System.out.println(Integer.toBinaryString(-127));
+        System.out.println(-127 & 0xFF);
+        System.out.println(Integer.toBinaryString(-127 & 0xFF));
+        System.out.println((-128) & 0xFF);
+        System.out.println(Integer.toBinaryString((-128) & 0xFF));
 
     }
 }
