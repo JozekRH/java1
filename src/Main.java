@@ -2,7 +2,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 public class Main {
@@ -16,11 +18,12 @@ public class Main {
 //        System.out.println(duration.toDays());
 //        System.out.println(duration);
 
-        Path path = Paths.get(".").toAbsolutePath().normalize();
+        //Path path = Paths.get(".").toAbsolutePath().normalize();
         //System.out.println(path.toAbsolutePath().normalize().toString());
-        File file = new File(path.toString() + "/created");
+        //File file = new File(path.toString() + "/created");
         //File file = new File("./created");
-        System.out.println(file.mkdir());
-        System.out.println(path.toAbsolutePath().normalize().getParent());
+        //System.out.println(file.mkdir());
+        //System.out.println(path.toAbsolutePath().normalize().getParent());
+
     }
 }
