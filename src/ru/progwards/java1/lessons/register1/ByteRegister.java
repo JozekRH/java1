@@ -7,7 +7,7 @@ public class ByteRegister {
     public ByteRegister() { // инициализация нулями
         byteValue = new Bit[8];
         for (int i = 0; i < byteValue.length; i++) {
-            byteValue[i] = new Bit(false);
+            byteValue[i] = new Bit();
         }
     }
 
@@ -23,14 +23,13 @@ public class ByteRegister {
     }
 
     public String toString() { // вывод в двоичном виде
-        int value = 0;
         int bitValue = 0;
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < byteValue.length; i++) {
             bitValue = byteValue[i].value ? 1 : 0;
-            value += bitValue;
-            value <<= 1;
+            sb.append(bitValue);
         }
-        return Integer.toBinaryString(value);
+        return sb.toString();
     }
 
     public String toDecString() {
@@ -38,8 +37,8 @@ public class ByteRegister {
         int bitValue = 0;
         for (int i = 0; i < byteValue.length; i++) {
             bitValue = byteValue[i].value ? 1 : 0;
+            bitValue <<= i;
             value += bitValue;
-            value <<= 1;
         }
         return Integer.toString(value);
     }
