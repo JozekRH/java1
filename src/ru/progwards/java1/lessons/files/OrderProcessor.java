@@ -49,18 +49,23 @@ public class OrderProcessor {
                             return FileVisitResult.CONTINUE;
                         }
 
-                        String fileName = file.getFileName().toString().split(".")[0];
+                        String fileName = file.getFileName().toString();
                         String[] idsArr = fileName.split("-");
-                        if (idsArr.length != 3
-                                || idsArr[0].length() != 3
-                                || idsArr[1].length() != 6
-                                || idsArr[2].length() != 4) {
+                        if (idsArr.length != 3) {
+                            return FileVisitResult.CONTINUE;
+                        }
+                        String shopId = idsArr[0];
+                        String orderId = idsArr[1];
+                        String customerId = idsArr[2].split(".")[0];
+                        if (shopId.length() != 3
+                                || orderId.length() != 6
+                                || customerId.length() != 4) {
                             return FileVisitResult.CONTINUE;
                         }
                         Order order = new Order();
-                        order.shopId = idsArr[0];
-                        order.orderId = idsArr[1];
-                        order.customerId = idsArr[2];
+                        order.shopId = shopId;
+                        order.orderId = orderId;
+                        order.customerId = customerId;
                         order.datetime = lastDateTime;
                         order.items = new ArrayList<>();
                         order.sum = 0;
