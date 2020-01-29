@@ -56,7 +56,7 @@ public class OrderProcessor {
                         }
                         String shopId = idsArr[0];
                         String orderId = idsArr[1];
-                        String customerId = idsArr[2].split(".")[0];
+                        String customerId = idsArr[2];
                         if (shopId.length() != 3
                                 || orderId.length() != 6
                                 || customerId.length() != 4) {
