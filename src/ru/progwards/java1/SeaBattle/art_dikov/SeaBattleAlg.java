@@ -104,6 +104,13 @@ public class SeaBattleAlg {
             field[y][x] = '.';
     }
 
+    private void drawField() {
+        for (char[] row : field
+        ) {
+            System.out.println(Arrays.toString(row));
+        }
+        System.out.println("----------------------------");
+    }
 
     public void battleAlgorithm(SeaBattle seaBattle) {
         field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
@@ -128,9 +135,9 @@ public class SeaBattleAlg {
                             field[y][x] = '.';
                         } else {
                             field[y][x] = 'X';
+                            drawCornerDots(x, y, seaBattle.getSizeX());
                             if (fireResult == FireResult.DESTROYED) {
                                 hits++;
-                                drawCornerDots(x, y, seaBattle.getSizeX());
                                 drawOneDot(x, y-1, seaBattle.getSizeX());
                                 drawOneDot(x, y+1, seaBattle.getSizeX());
                                 drawOneDot(x-1, y, seaBattle.getSizeX());
@@ -155,11 +162,9 @@ public class SeaBattleAlg {
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-        SeaBattle seaBattle = new SeaBattle();
+        SeaBattle seaBattle = new SeaBattle(false);
         new SeaBattleAlg().battleAlgorithm(seaBattle);
         System.out.println(seaBattle.getResult());
         System.out.println(seaBattle);
     }
 }
-
-
