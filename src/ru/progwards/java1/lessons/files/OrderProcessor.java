@@ -49,10 +49,14 @@ public class OrderProcessor {
                             return FileVisitResult.CONTINUE;
                         }
 
-                        String fileName = file.getFileName().toString();
+                        String fileName = file.getFileName().toString().split(".")[0];
                         String[] idsArr = fileName.split("-");
-                        if (idsArr.length != 3)
+                        if (idsArr.length != 3
+                                || idsArr[0].length() != 3
+                                || idsArr[1].length() != 6
+                                || idsArr[2].length() != 4) {
                             return FileVisitResult.CONTINUE;
+                        }
                         Order order = new Order();
                         order.shopId = idsArr[0];
                         order.orderId = idsArr[1];
