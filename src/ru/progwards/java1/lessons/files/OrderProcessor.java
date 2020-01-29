@@ -52,6 +52,7 @@ public class OrderProcessor {
                         String fileName = file.getFileName().toString();
                         String[] idsArr = fileName.split("-");
                         if (idsArr.length != 3) {
+                            failedFileNumber++;
                             return FileVisitResult.CONTINUE;
                         }
                         String shopId = idsArr[0];
@@ -60,6 +61,7 @@ public class OrderProcessor {
                         if (shopId.length() != 3
                                 || orderId.length() != 6
                                 || customerId.length() != 4) {
+                            failedFileNumber++;
                             return FileVisitResult.CONTINUE;
                         }
                         Order order = new Order();
