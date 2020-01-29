@@ -55,6 +55,7 @@ public class SeaBattleAlg {
                             boatLength++;
                             if (fireHurtShipResult == FireResult.DESTROYED) {
                                 drawOneDot(xCoord+j, y, seaBattle.getSizeX());
+                                drawOneDot(xCoord-j*boatLength, y, seaBattle.getSizeX());
                                 return boatLength;
                             }
                         }
@@ -80,6 +81,7 @@ public class SeaBattleAlg {
                             boatLength++;
                             if (fireHurtShipResult == FireResult.DESTROYED) {
                                 drawOneDot(x, yCoord+j, seaBattle.getSizeX());
+                                drawOneDot(x, yCoord-j*boatLength, seaBattle.getSizeX());
                                 return boatLength;
                             }
                         }
@@ -162,7 +164,7 @@ public class SeaBattleAlg {
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-        SeaBattle seaBattle = new SeaBattle(false);
+        SeaBattle seaBattle = new SeaBattle(true);
         new SeaBattleAlg().battleAlgorithm(seaBattle);
         System.out.println(seaBattle.getResult());
         System.out.println(seaBattle);
