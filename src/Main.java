@@ -19,10 +19,10 @@ public class Main {
 //        System.out.println(duration.toDays());
 //        System.out.println(duration);
 
-        Path path = Paths.get(".").toAbsolutePath().normalize();
+        Path path = Paths.get("D:\\file1.txt").toAbsolutePath().normalize();
         System.out.println(path);
         String file = path.getFileName().toString();
-        String[] fileArr = file.split(".");
+        String[] fileArr = file.split("\\.");
         System.out.println(file);
         System.out.println(Arrays.toString(fileArr));
 
