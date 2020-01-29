@@ -1,10 +1,9 @@
-package ru.progwards.java1.SeaBattle.art;
+package ru.progwards.java1.SeaBattle.art_dikov;
 
 import ru.progwards.java1.SeaBattle.SeaBattle;
 import ru.progwards.java1.SeaBattle.SeaBattle.FireResult;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class SeaBattleAlg {
     // Тестовое поле создаётся конструктором
@@ -105,13 +104,6 @@ public class SeaBattleAlg {
             field[y][x] = '.';
     }
 
-    private void drawField() {
-        for (char[] row : field
-             ) {
-            System.out.println(Arrays.toString(row));
-        }
-        System.out.println("----------------------------");
-    }
 
     public void battleAlgorithm(SeaBattle seaBattle) {
         field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
@@ -120,40 +112,53 @@ public class SeaBattleAlg {
         }
 
         int hits = 0;
-        for (int y = 0; y < seaBattle.getSizeY(); y++) {
-            for (int x = 0; x < seaBattle.getSizeX(); x++) {
-                if (field[y][x] == ' ') {
-                    SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
-                    if (fireResult == FireResult.MISS) {
-                        field[y][x] = '.';
-                    } else {
-                        field[y][x] = 'X';
-                        if (fireResult == FireResult.DESTROYED) {
-                            hits++;
-                            drawCornerDots(x, y, seaBattle.getSizeX());
-                            drawOneDot(x, y-1, seaBattle.getSizeX());
-                            drawOneDot(x, y+1, seaBattle.getSizeX());
-                            drawOneDot(x-1, y, seaBattle.getSizeX());
-                            drawOneDot(x+1, y, seaBattle.getSizeX());
+
+        int stepSize = 4; // шаг выстрелов по оси Х
+        int stepSizeDecrement = 0; //
+        // первый проход цикла while - ищем 4-х палубный,
+        // второй проход цикла - ищем 3-х и 2-х палубные, третий 1-палубные
+        while (stepSize > 0) {
+            int startX = -1 + stepSize - stepSizeDecrement;
+            startX = startX > 0 ? startX : 0;
+            for (int y = 0; y < seaBattle.getSizeY(); y++) {
+                for (int x = startX; x < seaBattle.getSizeX(); x += stepSize) {
+                    if (field[y][x] == ' ') {
+                        SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
+                        if (fireResult == FireResult.MISS) {
+                            field[y][x] = '.';
                         } else {
-                            hits += finishBoat(x, y, seaBattle);
+                            field[y][x] = 'X';
+                            if (fireResult == FireResult.DESTROYED) {
+                                hits++;
+                                drawCornerDots(x, y, seaBattle.getSizeX());
+                                drawOneDot(x, y-1, seaBattle.getSizeX());
+                                drawOneDot(x, y+1, seaBattle.getSizeX());
+                                drawOneDot(x-1, y, seaBattle.getSizeX());
+                                drawOneDot(x+1, y, seaBattle.getSizeX());
+                            } else {
+                                hits += finishBoat(x, y, seaBattle);
+                            }
+                        }
+                        if (hits >= 20) {
+                            return;
                         }
                     }
-                    if (hits >= 20) {
-                        drawField();
-                        return;
-                    }
                 }
+                startX--;
+                startX = startX >= 0 ? startX : stepSize-1;
             }
+            stepSize -= stepSizeDecrement;
+            stepSizeDecrement += 2;
         }
     }
 
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-        SeaBattle seaBattle = new SeaBattle(true);
+        SeaBattle seaBattle = new SeaBattle();
         new SeaBattleAlg().battleAlgorithm(seaBattle);
         System.out.println(seaBattle.getResult());
+        System.out.println(seaBattle);
     }
 }
 
