@@ -119,6 +119,12 @@ public class OrderProcessor {
                             order.items.add(orderItem);
                             order.sum += (goodsCount * oneGoodPrice);
                         }
+                        order.items.sort(new Comparator<OrderItem>() {
+                            @Override
+                            public int compare(OrderItem orderItem1, OrderItem orderItem2) {
+                                return orderItem1.googsName.compareTo(orderItem2.googsName);
+                            }
+                        });
 
                         ordersByShops.putIfAbsent(order.shopId, new ArrayList<>());
                         ordersByShops.get(order.shopId).add(order);
