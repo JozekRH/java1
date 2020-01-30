@@ -3,14 +3,10 @@ package ru.progwards.java1.lessons.register2;
 public class ByteRegister extends Register {
 
     public ByteRegister() { // инициализация нулями
-        super(8);
+        super();
     }
 
     public ByteRegister(byte value) {
-        this();
-        for (int i = 0; i < registerValue.length; i++) {
-            registerValue[i].value = (value & 1) == 1;
-            value >>>= 1;
-        }
+       super((int)value);
     }
 }

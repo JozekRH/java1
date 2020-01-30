@@ -4,10 +4,19 @@ public class Register {
 
     public Bit[] registerValue;
 
-    public Register(int length) { // инициализация нулями
+    public Register() { // инициализация нулями
+        int length = 32;
         registerValue = new Bit[length];
         for (int i = 0; i < length; i++) {
             registerValue[i] = new Bit();
+        }
+    }
+
+    public Register(int value) {
+        this();
+        for (int i = 0; i < registerValue.length; i++) {
+            registerValue[i].value = (value & 1) == 1;
+            value >>>= 1;
         }
     }
 
