@@ -146,24 +146,24 @@ public class SeaBattleAlg {
         hits = 0;
 
         //Стреляем в центральную часть поля размером 4х4, т.к. это наиболее вероятная зона размещения кораблей
-        int xx = 6;
-        int yy = 3;
-        for (int i = 0; i < 4; i++) {
-            if (field[yy][xx] == ' ') {
-                makeShot(xx, yy, seaBattle);
-            }
-            xx--;
-            yy++;
-        }
-
-        if (field[3][4] == ' ')
-            makeShot(4,3,seaBattle);
-        if (field[4][3] == ' ')
-            makeShot(3, 4, seaBattle);
-        if (field[6][5] == ' ')
-            makeShot(5,6,seaBattle);
-        if (field[5][6] == ' ')
-            makeShot(6, 5, seaBattle);
+//        int xx = 6;
+//        int yy = 3;
+//        for (int i = 0; i < 4; i++) {
+//            if (field[yy][xx] == ' ') {
+//                makeShot(xx, yy, seaBattle);
+//            }
+//            xx--;
+//            yy++;
+//        }
+//
+//        if (field[3][4] == ' ')
+//            makeShot(4,3,seaBattle);
+//        if (field[4][3] == ' ')
+//            makeShot(3, 4, seaBattle);
+//        if (field[6][5] == ' ')
+//            makeShot(5,6,seaBattle);
+//        if (field[5][6] == ' ')
+//            makeShot(6, 5, seaBattle);
 
         // затем стреляем по всему игровому полю начиная с 0-й строки.
         // Сначала стреляем с шагом 4, чтобы найти 4-х палубный
@@ -209,9 +209,17 @@ public class SeaBattleAlg {
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-        SeaBattle seaBattle = new SeaBattle(true);
-        new SeaBattleAlg().battleAlgorithm(seaBattle);
-        System.out.println(seaBattle.getResult());
-        System.out.println(seaBattle);
+//        SeaBattle seaBattle = new SeaBattle(true);
+//        new SeaBattleAlg().battleAlgorithm(seaBattle);
+//        System.out.println(seaBattle.getResult());
+//        System.out.println(seaBattle);
+        double sum = 0.0;
+        for (int i = 0; i < 10000; i++) {
+            SeaBattle seaBattle = new SeaBattle();
+            new SeaBattleAlg().battleAlgorithm(seaBattle);
+            sum += seaBattle.getResult();
+        }
+
+        System.out.println(sum);
     }
 }
