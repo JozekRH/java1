@@ -5,7 +5,7 @@ public class IntRegister extends Register {
     public IntRegister() { // инициализация нулями
         super();
     }
-    
+
     public IntRegister(int value) {
         super(value);
     }
