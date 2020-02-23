@@ -7,9 +7,53 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) { ;
+    public static void main(String[] args) {
+        String sentance = "Убитых словом, добивают молчанием. (c) Уильям Шекспир.";
+        StringTokenizer tokenizer = new StringTokenizer(sentance, " .,-!\n");
+        String[] strArr = new String[tokenizer.countTokens()];
+        int counter = 0;
+        while(tokenizer.hasMoreTokens()) {
+            if(counter % 2 == 0) {
+                if (counter+1 < strArr.length) {
+                    strArr[counter+1] = tokenizer.nextToken();
+                } else {
+                    strArr[counter] = tokenizer.nextToken();
+                }
+            } else {
+                strArr[counter-1] = tokenizer.nextToken();
+            }
+            counter++;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String str : strArr) {
+            stringBuilder.append(str).append(" ");
+        }
+//        System.out.println(stringBuilder.toString());
+//        System.out.format("|%04d|%#x|%2.1f|\n", 2, 15, 3.25);
+        System.out.format(new Locale("ru"), "|%1$04d|%2$td/%2$tm/%2$tY|%3$1.1f|", 2, new Date(), 123.25);
+
+         class Person {
+            public String name;
+            public Date birth;
+            public double salary;
+
+            Person(String name, Date birth, double salary) {
+                this.name = name;
+                this.birth = birth;
+                this. salary = salary;
+            }
+
+             void printPersons(Person[] persons) {
+                for(Person person : persons) {
+                    System.out.format(new Locale("ru"),"|%1$-10s|%2$td/%2$tm/%2$tY|%3$,10.2f|\n", person.name, person.birth, person.salary);
+                }
+             }
+        }
 
 //        String strDuration = "0000-01-01T00:00:00";
 //        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
