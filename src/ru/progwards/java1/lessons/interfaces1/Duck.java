@@ -1,7 +1,5 @@
 package ru.progwards.java1.lessons.interfaces1;
 
-import java.awt.*;
-
 public class Duck extends Animal{
 
 	public Duck(String name) {
