@@ -34,22 +34,4 @@ public class CalendarPrint {
             System.out.println();
         }
     }
-
-    public static void main(String[] args) {
-
-        printMonth(2, 2022);
-
-        Date d1 = new Date(ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE));
-        Date d2 = new Date(ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE));
-        Instant i1 = Instant.ofEpochMilli(d1.getTime());
-        Instant i2 = Instant.ofEpochMilli(d2.getTime());
-        Duration d = Duration.between(i1, i2);
-
-        LocalDate ld1 = d1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate ld2 = d2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        Period p = Period.between(ld1, ld2);
-        System.out.println(String.format("Между date1 и date2 %s лет, %s месяцев, %s дней, %s минут, %s секунд, %s миллисекунд",
-                Math.abs(p.getYears()), Math.abs(p.getMonths()), Math.abs(p.getDays()), Math.abs(d.toHoursPart()), Math.abs(d.toMinutesPart()), Math.abs(d.toSecondsPart()), Math.abs(d.toMillisPart())));
-    }
 }
