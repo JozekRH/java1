@@ -7,9 +7,7 @@ import java.util.Date;
 public class DateDiff {
 
     public static void timeBetween(Date date1, Date date2){
-        Instant i1 = Instant.ofEpochMilli(date1.getTime());
-        Instant i2 = Instant.ofEpochMilli(date2.getTime());
-        Duration d = Duration.between(i1, i2);
+        Duration d = Duration.between(date1.toInstant(), date2.toInstant());
 
         LocalDate ld1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate ld2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -27,9 +25,7 @@ public class DateDiff {
             birthday = c.getTime();
         }
 
-        Instant i1 = Instant.ofEpochMilli(now.getTime());
-        Instant i2 = Instant.ofEpochMilli(birthday.getTime());
-        Duration d = Duration.between(i1, i2);
+        Duration d = Duration.between(now.toInstant(), birthday.toInstant());
 
         LocalDate ld1 = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate ld2 = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -50,9 +46,7 @@ public class DateDiff {
         Date date1 = new Date(0);
         Date date2 = new Date(millis);
 
-        Instant i1 = Instant.ofEpochMilli(date1.getTime());
-        Instant i2 = Instant.ofEpochMilli(date2.getTime());
-        Duration d = Duration.between(i1, i2);
+        Duration d = Duration.between(date1.toInstant(), date2.toInstant());
 
         LocalDate ld1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate ld2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
