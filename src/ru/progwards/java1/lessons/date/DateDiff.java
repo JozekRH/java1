@@ -32,7 +32,7 @@ public class DateDiff {
 
         Period p = Period.between(ld1, ld2);
         System.out.println(String.format("До дня рождения %s месяцев, %s дней, %s минут, %s секунд, %s миллисекунд",
-                Math.abs(p.getMonths()), Math.abs(p.getDays()), Math.abs(d.toHoursPart()), Math.abs(d.toMinutesPart()), Math.abs(d.toSecondsPart()), Math.abs(d.toMillisPart())));
+                p.getMonths(), p.getDays(), d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart(), d.toMillisPart()));
     }
 
     public static void averageTime(Date[] events){
@@ -54,7 +54,7 @@ public class DateDiff {
         Period p = Period.between(ld1, ld2);
 
         System.out.println(String.format("Среднее время между событиями %s лет, %s месяцев, %s дней, %s минут, %s секунд, %s миллисекунд",
-                Math.abs(p.getYears()), Math.abs(p.getMonths()), Math.abs(p.getDays()), Math.abs(d.toHoursPart()), Math.abs(d.toMinutesPart()), Math.abs(d.toSecondsPart()), Math.abs(d.toMillisPart())));
+                p.getYears(), p.getMonths(), p.getDays(), d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart(), d.toMillisPart()));
 
     }
 
