@@ -24,6 +24,13 @@ public class FloatNumber {
         this.exp = bd.scale();
     }
 
+    public void fromDouble(double num){
+        FloatNumber fn = new FloatNumber(String.valueOf(num));
+        this.sign = fn.sign;
+        this.mantissa = fn.mantissa;
+        this.exp = fn.exp;
+    }
+
     public String toString(){
         BigDecimal bd = new BigDecimal(mantissa).movePointLeft(exp);
         if (!sign) bd = bd.negate();
